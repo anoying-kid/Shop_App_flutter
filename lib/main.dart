@@ -10,19 +10,20 @@ void main(List<String> args) {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  final ThemeData theme =
-      ThemeData(primarySwatch: Colors.blue, fontFamily: 'Lato');
+  final ThemeData lightTheme = ThemeData(
+      primarySwatch: Colors.deepOrange,
+      appBarTheme: AppBarTheme(color: Colors.deepOrange),
+      fontFamily: 'Lato',
+      colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.pink));
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Products(),
+    return ChangeNotifierProvider.value(
+      value: Products(),
       child: MaterialApp(
         title: 'MyShop',
-        theme: theme.copyWith(
-            colorScheme:
-                theme.colorScheme.copyWith(secondary: Colors.deepOrange)),
+        theme: lightTheme,
         routes: {
-          ProductDetailScreen.routeName :(context) => ProductDetailScreen()
+          ProductDetailScreen.routeName: (context) => ProductDetailScreen()
         },
         home: ProductOverviewScreen(),
       ),
