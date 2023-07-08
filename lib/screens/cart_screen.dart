@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/providers/cart.dart';
+import 'package:shop/providers/cart.dart' show Cart;
+import '../widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart-screen';
@@ -8,7 +9,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartItem = Provider.of<Cart>(context);
+    final cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Cart'),
@@ -31,7 +32,7 @@ class CartScreen extends StatelessWidget {
                 Spacer(),
                 Chip(
                   label: Text(
-                    '${cartItem.totalAmount}',
+                    '${cart.totalAmount}',
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -39,12 +40,32 @@ class CartScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text('ORDER NOW',style: TextStyle(color: Theme.of(context).primaryColor)),
+                  child: Text('ORDER NOW',
+                      style: TextStyle(color: Theme.of(context).primaryColor)),
                 )
               ],
             ),
           ),
-        )
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        // Expanded(
+        //     child: ListView.builder(
+        //   itemBuilder: (context, i) => CartItem(
+        //       cart.items.values.toList()[i].id,
+        //       cart.items.values.toList()[i].price,
+        //       cart.items.values.toList()[i].quantity,
+        //       cart.items.values.toList()[i].title),
+        //   itemCount: cart.items.length,
+        // )),
+        Expanded(
+            child: TextButton(
+          child: Text('Buy'),
+          onPressed: () {
+            cart.items.values.toList()[0].id;
+          },
+        ))
       ]),
     );
   }
