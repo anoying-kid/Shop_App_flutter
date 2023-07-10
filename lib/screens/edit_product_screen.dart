@@ -38,8 +38,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   void _updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
-      if (_imageUrlController.text.startsWith('http') ||
-          _imageUrlController.text.startsWith('https')) {
+      if (!_imageUrlController.text.startsWith('http') ||
+          !_imageUrlController.text.startsWith('https')) {
         return;
       }
       setState(() {});
