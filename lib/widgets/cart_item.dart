@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shop/providers/cart.dart';
 
@@ -10,7 +14,6 @@ class CartItem extends StatelessWidget {
   final String title;
   const CartItem(this.id, this.productId, this.price, this.quantity, this.title,
       {super.key});
-
   @override
   Widget build(BuildContext context) {
     return Dismissible(
@@ -19,22 +22,41 @@ class CartItem extends StatelessWidget {
       confirmDismiss: (direction) {
         return showDialog(
             context: context,
-            builder: (context) => AlertDialog(
-                  title: Text('Are you sure?'),
-                  content: Text('Do you want to item from the cart?'),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(false);
-                        },
-                        child: Text('No')),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(true);
-                        },
-                        child: Text('Yes'))
-                  ],
-                ));
+            builder: (context) => (Platform.isIOS)
+                ? CupertinoAlertDialog(
+                    title: Text('Are you sure?'),
+                    content: Text('Do you want to remove item from the cart?'),
+                    actions: [
+                      CupertinoDialogAction(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                          isDestructiveAction: false,
+                          child: Text('Yes')),
+                      CupertinoDialogAction(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          isDestructiveAction: true,
+                          child: Text('No')),
+                    ],
+                  )
+                : AlertDialog(
+                    title: Text('Are you sure?'),
+                    content: Text('Do you want to remove item from the cart?'),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: Text('No')),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                          child: Text('Yes'))
+                    ],
+                  ));
       },
       onDismissed: (direction) {
         Provider.of<Cart>(context, listen: false).removeItem(productId);
