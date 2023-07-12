@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:shop/providers/product.dart';
@@ -92,7 +93,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    var url = Uri.parse(
+    final url = Uri.parse(
         'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/products.json');
     try {
       final response = await http.post(url,
@@ -116,9 +117,19 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex >= 0) {
+      final url = Uri.parse(
+          'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/products/$id.json');
+      await http.patch(url,
+          body: json.encode({
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'imageUrl': newProduct.imageUrl,
+            'price': newProduct.price,
+            'isFavourite': newProduct.isFavourite
+          }));
       _items[prodIndex] = newProduct;
       notifyListeners();
     } else {
@@ -126,10 +137,20 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere(
-      (element) => element.id == id,
-    );
+  Future<void> deleteProduct(String id) async {
+    final url = Uri.parse(
+        'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/products/$id.json');
+    final existingProductIndex =
+        _items.indexWhere((element) => element.id == id);
+    Product? existingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete a product');
+    }
+    existingProduct = null;
   }
 }
