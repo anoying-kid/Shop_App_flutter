@@ -73,6 +73,9 @@ class Products with ChangeNotifier {
         'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/products.json');
     try {
       final response = await http.get(url);
+      if (json.decode(response.body) == null) {
+        return;
+      }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       // print(json.decode(response.body));
       final List<Product> loadedProducts = [];
