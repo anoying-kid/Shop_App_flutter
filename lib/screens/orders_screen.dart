@@ -22,7 +22,7 @@ class OrdersScreen extends StatelessWidget {
           builder: (ctx, dataSnapshot) {
             if (dataSnapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: (Platform.isIOS)
+                child: (Platform.isIOS || Platform.isMacOS)
                     ? CupertinoActivityIndicator()
                     : CircularProgressIndicator(),
               );

@@ -140,7 +140,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       ),
       body: (_isLoading)
           ? Center(
-              child: CircularProgressIndicator(),
+              child: (Platform.isIOS || Platform.isMacOS) ? CupertinoActivityIndicator() : CircularProgressIndicator(),
             )
           : Padding(
               padding: const EdgeInsets.all(16.0),

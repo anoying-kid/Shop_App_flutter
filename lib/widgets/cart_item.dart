@@ -22,7 +22,7 @@ class CartItem extends StatelessWidget {
       confirmDismiss: (direction) {
         return showDialog(
             context: context,
-            builder: (context) => (Platform.isIOS)
+            builder: (context) => (Platform.isIOS || Platform.isMacOS)
                 ? CupertinoAlertDialog(
                     title: Text('Are you sure?'),
                     content: Text('Do you want to remove item from the cart?'),

@@ -97,7 +97,7 @@ class _OrderButtonState extends State<OrderButton> {
             },
       child: Center(
         child: (_isLoading)
-            ? (Platform.isIOS)
+            ? (Platform.isIOS || Platform.isMacOS)
                 ? CupertinoActivityIndicator()
                 : CircularProgressIndicator()
             : Text('ORDER NOW',
