@@ -91,7 +91,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           ),
         ],
       ),
-      body: (_isLoading)? Center(child: (Platform.isIOS || Platform.isMacOS) ? CupertinoActivityIndicator(): CircularProgressIndicator()) :ProductsGrid(_showOnlyFavourites),
+      body: (_isLoading)? Center(child: (Platform.isIOS || Platform.isMacOS ) ? CupertinoActivityIndicator(): CircularProgressIndicator()) :ProductsGrid(_showOnlyFavourites),
       drawer: AppDrawer(),
     );
   }
