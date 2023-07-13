@@ -27,23 +27,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => Auth ()),
-        ChangeNotifierProvider(create: (context) => Products()),
+        ChangeNotifierProvider(create: (context) => Auth()),
+        ChangeNotifierProxyProvider<Auth, Products>(create: (context) => Products('',[]), update: (ctx, auth, previousProducts) => Products(auth.token, (previousProducts == null) ? []:previousProducts.items)),
         ChangeNotifierProvider(create: (context) => Cart()),
-        ChangeNotifierProvider(create: (context) => Orders()),
+        ChangeNotifierProxyProvider<Auth, Orders>(create: (context) => Orders('', []), update: (ctx, auth, previousOrders) => Orders(auth.token!, (previousOrders == null) ? []: previousOrders.orders),),
       ],
-      child: MaterialApp(
-        title: 'MyShop',
-        theme: lightTheme,
-        routes: {
-          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
-          CartScreen.routeName: (context) => CartScreen(),
-          OrdersScreen.routeName: (context) => OrdersScreen(),
-          UserProductsScreen.routeName: (context) => UserProductsScreen(),
-          EditProductScreen.routeName: (context) => EditProductScreen(),
-          // AuthScreen.routeName: (context) =>  AuthScreen(),
-        },
-        home: AuthScreen(),
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          title: 'MyShop',
+          theme: lightTheme,
+          routes: {
+            ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+            CartScreen.routeName: (context) => CartScreen(),
+            OrdersScreen.routeName: (context) => OrdersScreen(),
+            UserProductsScreen.routeName: (context) => UserProductsScreen(),
+            EditProductScreen.routeName: (context) => EditProductScreen(),
+            // AuthScreen.routeName: (context) =>  AuthScreen(),
+          },
+          home: auth.isAuth ? ProductOverviewScreen() : AuthScreen(),
+        ),
       ),
     );
   }
