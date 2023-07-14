@@ -4,10 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../auth/secrets.dart' show apiKey;
+
 class Auth with ChangeNotifier {
   String? _token;
   DateTime? _expiryDate;
-  // String? _userId;
+  String? _userId;
 
   bool get isAuth {
     return token != null;
@@ -22,10 +24,14 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  String? get userId {
+    return _userId;
+  }
+
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
     final url = Uri.parse(
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyA_CDm69Rcr26SPhw9fSB-t8Jh-9m_8_SY');
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=$apiKey');
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -38,9 +44,9 @@ class Auth with ChangeNotifier {
         throw HttpException(responseData['error']['message']);
       }
       _token = responseData['idToken'];
-      // _userId = responseData['localId'];
-      _expiryDate =
-          DateTime.now().add(Duration(seconds: int.parse(responseData['expiresIn'])));
+      _userId = responseData['localId'];
+      _expiryDate = DateTime.now()
+          .add(Duration(seconds: int.parse(responseData['expiresIn'])));
       notifyListeners();
     } catch (error) {
       rethrow;
