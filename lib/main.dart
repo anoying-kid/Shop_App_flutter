@@ -10,6 +10,7 @@ import 'package:shop/screens/edit_product_screen.dart';
 import 'package:shop/screens/orders_screen.dart';
 import 'package:shop/screens/product_detail_screen.dart';
 import 'package:shop/screens/product_overview_screen.dart';
+import 'package:shop/screens/splash_screen.dart';
 import 'package:shop/screens/user_products_screen.dart';
 
 void main(List<String> args) {
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
             EditProductScreen.routeName: (context) => EditProductScreen(),
             // AuthScreen.routeName: (context) =>  AuthScreen(),
           },
-          home: auth.isAuth ? ProductOverviewScreen() : AuthScreen(),
+          home: auth.isAuth ? ProductOverviewScreen() : FutureBuilder(future: auth.tryAutoLogin(), builder: (context, authResutlSnapshot) => (authResutlSnapshot.connectionState ==ConnectionState.waiting )? SplashScreen(): AuthScreen(),),
         ),
       ),
     );
