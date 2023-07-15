@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
   final ThemeData lightTheme = ThemeData(
       primarySwatch: Colors.deepOrange,
-      appBarTheme: AppBarTheme(color: Colors.deepOrange),
+      appBarTheme: const AppBarTheme(color: Colors.deepOrange),
       fontFamily: 'Lato',
       colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.pink));
   @override
@@ -47,22 +47,21 @@ class MyApp extends StatelessWidget {
           title: 'MyShop',
           theme: lightTheme,
           routes: {
-            ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
-            CartScreen.routeName: (context) => CartScreen(),
-            OrdersScreen.routeName: (context) => OrdersScreen(),
-            UserProductsScreen.routeName: (context) => UserProductsScreen(),
-            EditProductScreen.routeName: (context) => EditProductScreen(),
-            // AuthScreen.routeName: (context) =>  AuthScreen(),
+            ProductDetailScreen.routeName: (context) => const ProductDetailScreen(),
+            CartScreen.routeName: (context) => const CartScreen(),
+            OrdersScreen.routeName: (context) => const OrdersScreen(),
+            UserProductsScreen.routeName: (context) => const UserProductsScreen(),
+            EditProductScreen.routeName: (context) => const EditProductScreen(),
           },
           home: auth.isAuth
-              ? ProductOverviewScreen()
+              ? const ProductOverviewScreen()
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
                   builder: (context, authResutlSnapshot) =>
                       (authResutlSnapshot.connectionState ==
                               ConnectionState.waiting)
-                          ? SplashScreen()
-                          : AuthScreen(),
+                          ? const SplashScreen()
+                          : const AuthScreen(),
                 ),
         ),
       ),

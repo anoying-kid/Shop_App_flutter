@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/providers/orders.dart' show Orders;
@@ -13,17 +12,17 @@ class OrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Your Orders')),
+      appBar: AppBar(title: const Text('Your Orders')),
       body: FutureBuilder(
           future: Provider.of<Orders>(context, listen: false).fetchAndSetOrder(),
           builder: (ctx, dataSnapshot) {
             if (dataSnapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator.adaptive(),
               );
             } else {
               if (dataSnapshot.error != null) {
-                return Center(
+                return const Center(
                   child: Text('An error occurred'),
                 );
                 // ... error handling
@@ -37,7 +36,7 @@ class OrdersScreen extends StatelessWidget {
               }
             }
           }),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
     );
   }
 }

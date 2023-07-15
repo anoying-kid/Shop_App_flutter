@@ -18,28 +18,28 @@ class UserProductsScreen extends StatelessWidget {
     // final productsData = Provider.of<Products>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your products'),
+        title: const Text('Your products'),
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(EditProductScreen.routeName);
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: RefreshIndicator(
         onRefresh: () => _refreshProducts(context),
         child: FutureBuilder(
           future:  _refreshProducts(context),
           builder: (context, snapshot) =>
               (snapshot.connectionState == ConnectionState.waiting)
-                  ? Center(child: CircularProgressIndicator.adaptive())
+                  ? const Center(child: CircularProgressIndicator.adaptive())
                   : RefreshIndicator(
                       onRefresh: () => _refreshProducts(context),
                       child: Consumer<Products>(
                         builder:(context, productsData, _) => Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: ListView.builder(
                                 itemCount: productsData.items.length,
                                 itemBuilder: (context, i) => Column(
@@ -48,7 +48,7 @@ class UserProductsScreen extends StatelessWidget {
                                             productsData.items[i].id,
                                             productsData.items[i].title,
                                             productsData.items[i].imageUrl),
-                                        Divider()
+                                        const Divider()
                                       ],
                                     )),
                           ),

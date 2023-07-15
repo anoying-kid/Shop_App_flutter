@@ -31,11 +31,9 @@ class Product with ChangeNotifier {
     final url = Uri.parse(
         'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/userFavourites/$userId/$id.json?auth=$authToken');
     try {
-      final response = await http.put (url,
-          body: json.encode(isFavourite));
+      final response = await http.put(url, body: json.encode(isFavourite));
       if (response.statusCode >= 400) {
-
-      _setFavValue(oldStatus);
+        _setFavValue(oldStatus);
       }
     } catch (error) {
       _setFavValue(oldStatus);

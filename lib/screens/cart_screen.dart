@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/providers/cart.dart' show Cart;
@@ -14,27 +13,27 @@ class CartScreen extends StatelessWidget {
     final cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Cart'),
+        title: const Text('Your Cart'),
       ),
       body: Column(children: [
         Card(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Total',
                   style: TextStyle(fontSize: 20),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Spacer(),
+                const Spacer(),
                 Chip(
                   label: Text(
-                    '${cart.totalAmount.toStringAsFixed(2)}',
+                    cart.totalAmount.toStringAsFixed(2),
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -45,7 +44,7 @@ class CartScreen extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Expanded(
@@ -95,7 +94,7 @@ class _OrderButtonState extends State<OrderButton> {
             },
       child: Center(
         child: (_isLoading)
-            ? CircularProgressIndicator.adaptive()
+            ? const CircularProgressIndicator.adaptive()
             : Text('ORDER NOW',
                 style: TextStyle(color: Theme.of(context).primaryColor)),
       ),

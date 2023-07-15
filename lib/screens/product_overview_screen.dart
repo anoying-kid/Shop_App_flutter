@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/providers/cart.dart';
@@ -9,12 +8,12 @@ import 'package:shop/widgets/badge.dart';
 import 'package:shop/widgets/products_grid.dart';
 
 enum FilterOptions {
-  Favourites,
-  All,
+  favourite,
+  all,
 }
 
 class ProductOverviewScreen extends StatefulWidget {
-  ProductOverviewScreen({super.key});
+  const ProductOverviewScreen({super.key});
 
   @override
   State<ProductOverviewScreen> createState() => _ProductOverviewScreenState();
@@ -29,9 +28,11 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   void didChangeDependencies() {
     if (_isInit) {
       setState(() {
-      _isLoading = true;
+        _isLoading = true;
       });
-      Provider.of<Products>(context, listen: false).fetchAndSetProducts().then((value) {
+      Provider.of<Products>(context, listen: false)
+          .fetchAndSetProducts()
+          .then((value) {
         setState(() {
           _isLoading = false;
         });
@@ -45,11 +46,11 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MyShop'),
+        title: const Text('MyShop'),
         actions: [
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
-              if (selectedValue == FilterOptions.Favourites) {
+              if (selectedValue == FilterOptions.favourite) {
                 _showOnlyFavourites = true;
               } else {
                 _showOnlyFavourites = false;
@@ -57,22 +58,22 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               setState(() {});
             },
             itemBuilder: (_) => [
-              PopupMenuItem(
+              const PopupMenuItem(
+                value: FilterOptions.favourite,
                 child: Text('Only Favourites'),
-                value: FilterOptions.Favourites,
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
+                value: FilterOptions.all,
                 child: Text('Show All'),
-                value: FilterOptions.All,
               )
             ],
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
           ),
           Consumer<Cart>(
             builder: (context, cart, ch) =>
                 MyBadge(value: cart.itemCount.toString(), child: ch!),
             child: IconButton(
-              icon: Icon(Icons.shopping_cart),
+              icon: const Icon(Icons.shopping_cart),
               onPressed: () {
                 Navigator.of(context).pushNamed(CartScreen.routeName);
               },
@@ -80,8 +81,10 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           ),
         ],
       ),
-      body: (_isLoading)? Center(child: CircularProgressIndicator.adaptive()) :ProductsGrid(_showOnlyFavourites),
-      drawer: AppDrawer(),
+      body: (_isLoading)
+          ? const Center(child: CircularProgressIndicator.adaptive())
+          : ProductsGrid(_showOnlyFavourites),
+      drawer: const AppDrawer(),
     );
   }
 }

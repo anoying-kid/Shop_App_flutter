@@ -24,37 +24,37 @@ class CartItem extends StatelessWidget {
             context: context,
             builder: (context) => (Platform.isIOS || Platform.isMacOS)
                 ? CupertinoAlertDialog(
-                    title: Text('Are you sure?'),
-                    content: Text('Do you want to remove item from the cart?'),
+                    title: const Text('Are you sure?'),
+                    content: const Text('Do you want to remove item from the cart?'),
                     actions: [
                       CupertinoDialogAction(
                           onPressed: () {
                             Navigator.of(context).pop(true);
                           },
                           isDestructiveAction: false,
-                          child: Text('Yes')),
+                          child: const Text('Yes')),
                       CupertinoDialogAction(
                           onPressed: () {
                             Navigator.of(context).pop(false);
                           },
                           isDestructiveAction: true,
-                          child: Text('No')),
+                          child: const Text('No')),
                     ],
                   )
                 : AlertDialog(
-                    title: Text('Are you sure?'),
-                    content: Text('Do you want to remove item from the cart?'),
+                    title: const Text('Are you sure?'),
+                    content: const Text('Do you want to remove item from the cart?'),
                     actions: [
                       TextButton(
                           onPressed: () {
                             Navigator.of(context).pop(false);
                           },
-                          child: Text('No')),
+                          child: const Text('No')),
                       TextButton(
                           onPressed: () {
                             Navigator.of(context).pop(true);
                           },
-                          child: Text('Yes'))
+                          child: const Text('Yes'))
                     ],
                   ));
       },
@@ -63,28 +63,28 @@ class CartItem extends StatelessWidget {
       },
       background: Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: 20),
-        margin: EdgeInsets.symmetric(
+        padding: const EdgeInsets.only(right: 20),
+        margin: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 4,
         ),
         color: Theme.of(context).colorScheme.error,
-        child: Icon(
+        child: const Icon(
           Icons.delete,
           color: Colors.white,
           size: 40,
         ),
       ),
       child: Card(
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 4,
         ),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: ListTile(
             leading: CircleAvatar(
-              child: Text('\$${price}'),
+              child: Text('\$$price'),
             ),
             title: Text(title),
             subtitle: Text('Total: \$${price * quantity}'),

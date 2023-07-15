@@ -103,27 +103,27 @@ class _EditProductScreenState extends State<EditProductScreen> {
           ? await showDialog(
               context: context,
               builder: ((ctx) => CupertinoAlertDialog(
-                    title: Text('An error occurred!'),
-                    content: Text('Something went wrong.'),
+                    title: const Text('An error occurred!'),
+                    content: const Text('Something went wrong.'),
                     actions: [
                       CupertinoDialogAction(
                           onPressed: () {
                             Navigator.of(ctx).pop();
                           },
-                          child: Text('Okay')),
+                          child: const Text('Okay')),
                     ],
                   )))
           : await showDialog(
               context: context,
               builder: ((ctx) => AlertDialog(
-                    title: Text('An error occurred!'),
-                    content: Text('Something went wrong.'),
+                    title: const Text('An error occurred!'),
+                    content: const Text('Something went wrong.'),
                     actions: [
                       TextButton(
                           onPressed: () {
                             Navigator.of(ctx).pop();
                           },
-                          child: Text('Okay')),
+                          child: const Text('Okay')),
                     ],
                   )));
       setState(() {
@@ -136,14 +136,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Product'),
-        actions: [IconButton(onPressed: _saveForm, icon: Icon(Icons.save))],
+        title: const Text('Edit Product'),
+        actions: [IconButton(onPressed: _saveForm, icon: const Icon(Icons.save))],
       ),
       body: (_isLoading)
           ? Center(
               child: (Platform.isIOS || Platform.isMacOS)
-                  ? CupertinoActivityIndicator()
-                  : CircularProgressIndicator(),
+                  ? const CupertinoActivityIndicator()
+                  : const CircularProgressIndicator(),
             )
           : Padding(
               padding: const EdgeInsets.all(16.0),
@@ -153,7 +153,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   children: [
                     TextFormField(
                       initialValue: _initValues['title'],
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Title',
                       ),
                       textInputAction: TextInputAction.next,
@@ -178,7 +178,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                     TextFormField(
                       initialValue: _initValues['price'],
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Price',
                       ),
                       textInputAction: TextInputAction.next,
@@ -213,7 +213,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     TextFormField(
                       initialValue: _initValues['description'],
                       maxLines: 3,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Description',
                       ),
                       textInputAction: TextInputAction.next,
@@ -244,20 +244,20 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         Container(
                           width: 100,
                           height: 100,
-                          margin: EdgeInsets.only(top: 8, right: 10),
+                          margin: const EdgeInsets.only(top: 8, right: 10),
                           decoration: BoxDecoration(
                               border: Border.all(width: 1, color: Colors.grey)),
                           child: _imageUrlController.text.isEmpty
-                              ? Text('Enter a URL')
+                              ? const Text('Enter a URL')
                               : FittedBox(
+                                  fit: BoxFit.contain,
                                   child:
                                       Image.network(_imageUrlController.text),
-                                  fit: BoxFit.contain,
                                 ),
                         ),
                         Expanded(
                           child: TextFormField(
-                            decoration: InputDecoration(labelText: 'Image URL'),
+                            decoration: const InputDecoration(labelText: 'Image URL'),
                             keyboardType: TextInputType.url,
                             textInputAction: TextInputAction.done,
                             controller: _imageUrlController,
