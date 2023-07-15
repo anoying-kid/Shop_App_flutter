@@ -73,7 +73,8 @@ class Products with ChangeNotifier {
   // }
 
   Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
-    final filterString = filterByUser ?  'orderBy="creatorId"&equalTo="$userId"' : ''; 
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url = Uri.parse(
         'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/products.json?auth=$authToken&$filterString');
     try {
@@ -87,6 +88,9 @@ class Products with ChangeNotifier {
       final favouriteData = json.decode(favouriteResponse.body);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
+      if (extractedData.containsKey('error')) {
+        return;
+      }
       extractedData.forEach((key, value) {
         loadedProducts.add(Product(
           id: key,
@@ -156,8 +160,8 @@ class Products with ChangeNotifier {
     final existingProductIndex =
         _items.indexWhere((element) => element.id == id);
     Product? existingProduct = _items[existingProductIndex];
-    _items.removeAt(existingProductIndex);
     notifyListeners();
+    _items.removeAt(existingProductIndex);
     final response = await http.delete(url);
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);

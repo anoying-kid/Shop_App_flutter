@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,14 +15,11 @@ class OrdersScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Your Orders')),
       body: FutureBuilder(
-          future:
-              Provider.of<Orders>(context, listen: false).fetchAndSetOrder(),
+          future: Provider.of<Orders>(context, listen: false).fetchAndSetOrder(),
           builder: (ctx, dataSnapshot) {
             if (dataSnapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: (Platform.isIOS || Platform.isMacOS)
-                    ? CupertinoActivityIndicator()
-                    : CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               );
             } else {
               if (dataSnapshot.error != null) {
@@ -34,7 +29,7 @@ class OrdersScreen extends StatelessWidget {
                 // ... error handling
               } else {
                 return Consumer<Orders>(
-                  builder:(context, orderData, child) => ListView.builder(
+                  builder: (context, orderData, child) => ListView.builder(
                       itemCount: orderData.orders.length,
                       itemBuilder: ((context, index) =>
                           OrderItem(orderData.orders[index]))),

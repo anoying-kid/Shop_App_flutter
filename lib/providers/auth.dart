@@ -89,7 +89,8 @@ class Auth with ChangeNotifier {
     }
     final extractedUserData =
         json.decode(prefs.getString('userData')!) as Map<String, dynamic>;
-    final expiryDate = DateTime.parse(extractedUserData['expiryDate']!.toString());
+    final expiryDate =
+        DateTime.parse(extractedUserData['expiryDate']!.toString());
 
     if (expiryDate.isBefore(DateTime.now())) {
       return false;
@@ -102,7 +103,7 @@ class Auth with ChangeNotifier {
     return true;
   }
 
-  void logout() {
+  Future<void> logout() async {
     _token = null;
     _expiryDate = null;
     _userId = null;
@@ -111,6 +112,8 @@ class Auth with ChangeNotifier {
       _authTimer = null;
     }
     notifyListeners();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+     await preferences.clear();
   }
 
   void _autoLogout() {

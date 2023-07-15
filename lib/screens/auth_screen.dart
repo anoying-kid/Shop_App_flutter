@@ -249,27 +249,17 @@ class _AuthCardState extends State<AuthCard> {
                   height: 20,
                 ),
                 if (_isLoading)
-                  CircularProgressIndicator()
+                  CircularProgressIndicator.adaptive()
                 else
                   ElevatedButton(
                     child:
                         Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
                     onPressed: _submit,
-                    // shape: RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.circular(30),
-                    // ),
-                    // padding:
-                    //     EdgeInsets.symmetric(horizontal: 30.0, vertical: 8.0),
-                    // color: Theme.of(context).primaryColor,
-                    // textColor: Theme.of(context).primaryTextTheme.button.color,
                   ),
                 TextButton(
                   child: Text(
                       '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
                   onPressed: _switchAuthMode,
-                  // padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-                  // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  // textColor: Theme.of(context).primaryColor,
                 ),
               ],
             ),

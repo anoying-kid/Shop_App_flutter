@@ -29,6 +29,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     'price': '',
   };
   var _isLoading = false;
+  var _isDisposed = false;
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   void didChangeDependencies() {
-    if (_isInit) {
+    if (_isInit && !_isDisposed) {
       final productId = ModalRoute.of(context)?.settings.arguments as String?;
       if (productId != null) {
         _editedProduct =
@@ -57,6 +58,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   void dispose() {
+    _isDisposed = true;
     _imageUrlFocusNode.removeListener(_updateImageUrl);
     _imageUrlFocusNode.dispose();
     _priceFocusNode.dispose();
@@ -84,51 +86,50 @@ class _EditProductScreenState extends State<EditProductScreen> {
     setState(() {
       _isLoading = true;
     });
-    if (_editedProduct.id != '') {
-      await Provider.of<Products>(context, listen: false)
-          .updateProduct(_editedProduct.id, _editedProduct);
-      // setState(() {
-      //   _isLoading = false;
-      //   Navigator.of(context).pop();
-      // });
-    } else {
-      try {
+    try {
+      if (_editedProduct.id != '') {
+        await Provider.of<Products>(context, listen: false)
+            .updateProduct(_editedProduct.id, _editedProduct);
+      } else {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
-      } catch (error) {
-        (Platform.isIOS)
-            ? await showDialog(
-                context: context,
-                builder: ((ctx) => CupertinoAlertDialog(
-                      title: Text('An error occurred!'),
-                      content: Text('Something went wrong.'),
-                      actions: [
-                        CupertinoDialogAction(
-                            onPressed: () {
-                              Navigator.of(ctx).pop();
-                            },
-                            child: Text('Okay')),
-                      ],
-                    )))
-            : await showDialog(
-                context: context,
-                builder: ((ctx) => AlertDialog(
-                      title: Text('An error occurred!'),
-                      content: Text('Something went wrong.'),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.of(ctx).pop();
-                            },
-                            child: Text('Okay')),
-                      ],
-                    )));
+        setState(() {
+          _isLoading = false;
+          Navigator.of(context).pop();
+        });
       }
-    }
+    } catch (error) {
+      (Platform.isIOS)
+          ? await showDialog(
+              context: context,
+              builder: ((ctx) => CupertinoAlertDialog(
+                    title: Text('An error occurred!'),
+                    content: Text('Something went wrong.'),
+                    actions: [
+                      CupertinoDialogAction(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Okay')),
+                    ],
+                  )))
+          : await showDialog(
+              context: context,
+              builder: ((ctx) => AlertDialog(
+                    title: Text('An error occurred!'),
+                    content: Text('Something went wrong.'),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text('Okay')),
+                    ],
+                  )));
       setState(() {
         _isLoading = false;
-        Navigator.of(context).pop();
       });
+    }
   }
 
   @override
@@ -140,7 +141,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
       ),
       body: (_isLoading)
           ? Center(
-              child: (Platform.isIOS || Platform.isMacOS) ? CupertinoActivityIndicator() : CircularProgressIndicator(),
+              child: (Platform.isIOS || Platform.isMacOS)
+                  ? CupertinoActivityIndicator()
+                  : CircularProgressIndicator(),
             )
           : Padding(
               padding: const EdgeInsets.all(16.0),

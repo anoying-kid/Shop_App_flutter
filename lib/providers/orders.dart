@@ -18,10 +18,10 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
-  final String authToken;
+  final String? authToken;
   List<OrderItem> _orders;
-  final String userId;
-  Orders(this.authToken, this.userId,this._orders);
+  final String? userId;
+  Orders(this.authToken, this.userId, this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
@@ -36,6 +36,9 @@ class Orders with ChangeNotifier {
     }
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    if (extractedData.containsKey('error')) {
+      return;
+    }
     extractedData.forEach((orderId, orderData) {
       if (orderData == null) {
         return;
