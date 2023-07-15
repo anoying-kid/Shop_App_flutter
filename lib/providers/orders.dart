@@ -28,10 +28,15 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOrder() async {
+    if (userId == null) {
+      return;
+    }
     final url = Uri.parse(
         'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken');
     final response = await http.get(url);
     if (json.decode(response.body) == null) {
+      _orders = [];
+      notifyListeners();
       return;
     }
     final List<OrderItem> loadedOrders = [];
@@ -40,9 +45,6 @@ class Orders with ChangeNotifier {
       return;
     }
     extractedData.forEach((orderId, orderData) {
-      if (orderData == null) {
-        return;
-      }
       loadedOrders.add(OrderItem(
           id: orderId,
           amount: orderData['amount'],
@@ -61,7 +63,7 @@ class Orders with ChangeNotifier {
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final url = Uri.parse(
-        'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/orders.json?auth=$authToken');
+        'https://shop-app-flutter-98359-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken');
     final timestamp = DateTime.now();
     final response = await http.post(url,
         body: json.encode({
