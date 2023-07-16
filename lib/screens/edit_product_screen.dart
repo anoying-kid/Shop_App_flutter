@@ -93,11 +93,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
       } else {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
+      }
         setState(() {
           _isLoading = false;
           Navigator.of(context).pop();
         });
-      }
     } catch (error) {
       (Platform.isIOS)
           ? await showDialog(
@@ -140,10 +140,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
         actions: [IconButton(onPressed: _saveForm, icon: const Icon(Icons.save))],
       ),
       body: (_isLoading)
-          ? Center(
-              child: (Platform.isIOS || Platform.isMacOS)
-                  ? const CupertinoActivityIndicator()
-                  : const CircularProgressIndicator(),
+          ? const Center(
+              child: CircularProgressIndicator.adaptive(),
             )
           : Padding(
               padding: const EdgeInsets.all(16.0),
