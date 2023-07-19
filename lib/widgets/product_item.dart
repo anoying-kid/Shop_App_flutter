@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/providers/auth.dart';
 import 'package:shop/providers/cart.dart';
@@ -29,7 +30,7 @@ class ProductItem extends StatelessWidget {
             ),
           ),
           title: Text(
-            product.title,
+            product.title.splitMapJoin(' ',onMatch: (p0) => ' ', onNonMatch: (p0) => toBeginningOfSentenceCase(p0)!, ),
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
