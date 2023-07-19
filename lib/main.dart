@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/helpers/custom_route.dart';
 import 'package:shop/providers/auth.dart';
 import 'package:shop/providers/cart.dart';
 import 'package:shop/providers/orders.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       primarySwatch: Colors.deepOrange,
       appBarTheme: const AppBarTheme(color: Colors.deepOrange),
       fontFamily: 'Lato',
+      pageTransitionsTheme: PageTransitionsTheme(builders: {TargetPlatform.iOS: CustomPageTransitionBuilder(), TargetPlatform.android: CustomPageTransitionBuilder()}),
       colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.pink));
   @override
   Widget build(BuildContext context) {
