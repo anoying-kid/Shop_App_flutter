@@ -23,4 +23,4 @@ flutter pub get
 
 ## Working
 
-<img src= "screenshots/demo.gif" width="50%">
+<img src= "screenshots/demo.gif" width="25%">
